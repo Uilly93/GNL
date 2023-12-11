@@ -6,7 +6,7 @@
 /*   By: wnocchi <wnocchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 15:32:51 by wnocchi           #+#    #+#             */
-/*   Updated: 2023/12/07 16:38:52 by wnocchi          ###   ########.fr       */
+/*   Updated: 2023/12/11 14:36:57 by wnocchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,17 +48,15 @@ void	*ft_calloc(size_t nmemb, size_t size)
 	ft_bzero(ptr, (nmemb * size));
 	return (ptr);
 }
-char	*ft_strjoin_free(char *s1, char *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	size_t	i;
 	size_t	j;
 	char	*joined;
 	
-	if (!s1 || !s2)
-		return (NULL);
-	i = 0;
+	i = 0; 
 	j = 0;
-	joined = ft_calloc(sizeof(char), (ft_strlen(s1) + ft_strlen(s2)) + 1);
+	joined = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
 	if (!joined)
 		return (NULL);
 	while (s1[i])
@@ -68,7 +66,7 @@ char	*ft_strjoin_free(char *s1, char *s2)
 	}
 	while (s2[j])
 		joined[i++] = s2[j++];
-	free(s1);
+	joined[i] = '\0';
 	return (joined);
 }
 
