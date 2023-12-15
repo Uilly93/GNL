@@ -6,7 +6,7 @@
 /*   By: wnocchi <wnocchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 15:33:05 by wnocchi           #+#    #+#             */
-/*   Updated: 2023/12/12 14:26:18 by wnocchi          ###   ########.fr       */
+/*   Updated: 2023/12/15 12:20:39 by wnocchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,6 @@ char	*join_free(char *line, char *buffer)
 {
 	char	*temp;
 
-	if (!line)
-	{
-		free (line);
-		return (NULL);
-	}
 	temp = ft_strjoin(line, buffer);
 	if (!temp)
 		return (NULL);
@@ -62,18 +57,15 @@ char	*ft_new_line(char *buffer)
 
 	i = 0;
 	j = 0;
+	if (!buffer)
+		return (NULL);
 	while (buffer[i] && buffer[i] != '\n')
 		i++;
-	if (!buffer)
-	{
-		free(buffer);
-		return (NULL);
-	}
+	if (buffer[i] != 0)
+		i++;
 	new_line = malloc(ft_strlen(buffer) - i + 1);
 	if (!new_line)
 		return (NULL);
-	if (buffer[i] != 0)
-		i++;
 	while (buffer[i])
 		new_line[j++] = buffer[i++];
 	new_line[j] = '\0';
@@ -88,7 +80,7 @@ char	*ft_get_first_line(int fd, char *line)
 
 	bytes = 1;
 	if (!line)
-		line = ft_calloc(1, 1);
+		line = ft_strdup("");
 	while (bytes > 0)
 	{
 		bytes = read(fd, buffer, BUFFER_SIZE);
@@ -99,8 +91,6 @@ char	*ft_get_first_line(int fd, char *line)
 		}
 		buffer[bytes] = '\0';
 		line = join_free(line, buffer);
-		if (!line)
-			return (NULL);
 		if (ft_strchr(buffer, '\n'))
 			break ;
 	}
@@ -112,40 +102,38 @@ char	*get_next_line(int fd)
 	static char	*buffer;
 	char		*line;
 
-	if (((BUFFER_SIZE <= 0) || (read(fd, 0, 0) < 0) || fd < 0))
+	if (((BUFFER_SIZE <= 0) || fd < 0 || read(fd, 0, 0) < 0))
 		return (NULL);
 	buffer = ft_get_first_line(fd, buffer);
+	if (*buffer == 0)
+	{
+		free(buffer);
+		buffer = NULL;
+		return (NULL);
+	}
+	line = ft_line_cpy(buffer);
+	if (!line)
+		return (NULL);
+	buffer = ft_new_line(buffer);
 	if (!buffer)
 	{
 		free(buffer);
 		return (NULL);
 	}
-	line = ft_line_cpy(buffer);
-	buffer = ft_new_line(buffer);
 	return (line);
 }
 
-// int main(void)
-// {
-// 	char *str;
-// 	int fd = open("test.txt", O_RDONLY);
+/*int main(void)
+{
+	char *str;
+	int fd = open("trip/files/empty", O_RDONLY);
 
-// 	str = get_next_line(fd);
-// 	printf("%s", str);
-// 	free(str);
-// 	str = get_next_line(fd);
-// 	printf("%s", str);
-// 	free(str);
-// 	str = get_next_line(fd);
-// 	printf("%s", str);
-// 	free(str);
-// 	str = get_next_line(fd);
-// 	printf("%s", str);
-// 	free(str);
-// 	str = get_next_line(fd);
-// 	printf("%s", str);
-// 	free(str);
-// 	str = get_next_line(fd);
-// 	printf("%s", str);
-// 	free(str);
-// }
+	str = get_next_line(fd);
+	printf("%s", str);
+	//if (str)
+	//	free(str);
+	str = get_next_line(fd);
+	printf("%s", str);
+	//if (str)
+	//	free(str);
+}*/

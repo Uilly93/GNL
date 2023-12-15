@@ -6,7 +6,7 @@
 /*   By: wnocchi <wnocchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 09:47:43 by wnocchi           #+#    #+#             */
-/*   Updated: 2023/12/12 14:31:34 by wnocchi          ###   ########.fr       */
+/*   Updated: 2023/12/15 10:20:05 by wnocchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ char	*ft_new_line(char *buffer);
 char	*ft_get_first_line(int fd, char *line);
 char	*get_next_line(int fd);
 size_t	ft_strlen(char *s);
-void	ft_bzero(void *s, size_t n);
-void	*ft_calloc(size_t nmemb, size_t size);
+char	*ft_strdup(char *s);
 char	*ft_strjoin(char *s1, char *s2);
 char	*ft_strchr(char *s, char to_find);
+char	*join_free(char *line, char *buffer);
 
 #endif

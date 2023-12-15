@@ -6,7 +6,7 @@
 /*   By: wnocchi <wnocchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 15:32:51 by wnocchi           #+#    #+#             */
-/*   Updated: 2023/12/12 14:27:03 by wnocchi          ###   ########.fr       */
+/*   Updated: 2023/12/15 10:19:27 by wnocchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,28 +24,21 @@ size_t	ft_strlen(char *s)
 	return (i);
 }
 
-void	ft_bzero(void *s, size_t n)
+char	*ft_strdup(char *s)
 {
+	char	*ptr;
 	size_t	i;
 
 	i = 0;
-	while (i < n)
-	{
-		*((char *) s + i) = 0;
-		i++;
-	}
-}
-
-void	*ft_calloc(size_t nmemb, size_t size)
-{
-	void	*ptr;
-
-	if (size != 0 && (nmemb > ULONG_MAX / size))
-		return (NULL);
-	ptr = malloc(size * nmemb);
+	ptr = malloc(ft_strlen(s) + 1);
 	if (!ptr)
 		return (NULL);
-	ft_bzero(ptr, (nmemb * size));
+	while (s[i])
+	{
+		ptr[i] = s[i];
+		i++;
+	}
+	ptr[i] = '\0';
 	return (ptr);
 }
 
